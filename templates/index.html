@@ -1,0 +1,42 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ImageNet Classification App</title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto Condensed' rel='stylesheet'>
+    <link href="{{ url_for('static' , filename='css/index.css') }}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="clf-container">
+    <h1>ImageNet Classifier App</h1>
+    <div>
+        Aplicación de ejemplo para Taller de IA. El formulario recibe una imagen y le asocia su clase de ImageNet según
+        Resnet50 a través de un llamado a una API, también en Flask.
+    </div>
+    <form action="{{ url_for('upload_image') }}" class="form-classifier" enctype="multipart/form-data" method="post">
+        <input autocomplete="off" name="file" required type="file">
+        <button class="hvr-grow-shadow" type="submit">Enviar</button>
+    </form>
+    {% if filename %}
+    {% if result['predicted_label'] is not none %}
+    <div class="response response-ok">
+	    <div>Clase: <b>{{ result['clase_id'] }} {{ result['clase_nombre'] }}</b></div>
+    </div>
+    {% else %}
+    <div class="response response-error">
+        Error de predicción. No se encontró ninguna clase.
+        {% if error %}
+        <div>Detalle del error: {{error}}</div>
+        {% endif %}
+    </div>
+    {% endif %}
+    <img alt="Uploaded image" class="uploaded-image" src="{{ url_for('display_image', filename=filename) }}">
+    {% endif %}
+    {% if not filename and error %}
+    <div class="response response-ok">
+        Error: {{error}}
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>

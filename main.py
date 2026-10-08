@@ -38,7 +38,7 @@ def upload_image():
             f.write(file_bytes)
         files = {'file': file_bytes}
         print("llamando a " + IA_SERVER + IA_URL)
-        apicall = requests.post(IA_SERVER + IA_URL, files=files)
+        apicall = requests.post(IA_SERVER + IA_URL, files=files, timeout=(1, 10))
         if apicall.status_code != 200:
             error = "Error contactando la aplicación IA"
             return render_template('index.html', error=error)

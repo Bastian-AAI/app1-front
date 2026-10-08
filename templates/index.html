@@ -17,9 +17,12 @@
         <button class="hvr-grow-shadow" type="submit">Enviar</button>
     </form>
     {% if filename %}
-    {% if result['predicted_label'] is not none %}
+    {% if result %}
     <div class="response response-ok">
-	    <div>Clase: <b>{{ result['clase_id'] }} {{ result['clase_nombre'] }}</b></div>
+        {% for c in result['clases'] %}
+        <div>Clase: <b>{{ c['clase_id'] }} {{ c['clase_nombre'] }}</b> (score: {{ c['score'] }})</div>
+        {% endfor %}
+        <div>Tiempo: <b>{{ result['tiempo'] }} segundos</b></div>
     </div>
     {% else %}
     <div class="response response-error">
